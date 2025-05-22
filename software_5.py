@@ -24,7 +24,7 @@ def min_moves_to_collect_artifacts(building_map):
     while queue:
         x, y, keys, steps = queue.popleft()
         
-        # Check if all artifacts are collected
+        #Checking the artifacts
         if keys == total_keys:
             return steps
         
@@ -35,10 +35,10 @@ def min_moves_to_collect_artifacts(building_map):
                 cell = building_map[nx][ny]
                 new_keys = keys
                 
-                if cell == '#':
-                    continue  # wall
+                if cell == '#': #There is a wall
+                    continue  
                 
-                # Door logic
+                # For doors
                 if 'A' <= cell <= 'G':
                     required_key_bit = 1 << (ord(cell.lower()) - ord('a'))
                     if not (keys & required_key_bit):
@@ -48,12 +48,11 @@ def min_moves_to_collect_artifacts(building_map):
                 if 'a' <= cell <= 'g':
                     new_keys |= (1 << (ord(cell) - ord('a')))
                 
-                # Visit only new states
                 if (nx, ny, new_keys) not in visited:
                     visited.add((nx, ny, new_keys))
                     queue.append((nx, ny, new_keys, steps + 1))
     
-    return -1  # If unable to collect all artifacts
+    return -1  # Unable to collect the artifacts
 if __name__ == "__main__":
     map1 = ["@..a.",
             "###.#",
